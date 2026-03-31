@@ -16,28 +16,6 @@ async function startServer() {
   app.use(express.json());
   app.use(cors());
 
-  // Visitor Tracking (Vercel-compatible polling fallback)
-  // We track active visitors by their last "ping" time.
-  const activeVisitors = new Map<string, number>();
-  const VISITOR_TIMEOUT = 30000; // 30 seconds
-
-  app.get("/api/visitor-count", (req, res) => {
-    const visitorId = req.query.id as string || req.ip || "unknown";
-    const now = Date.now();
-    
-    // Update this visitor's last seen time
-    activeVisitors.set(visitorId, now);
-
-    // Clean up old visitors
-    for (const [id, lastSeen] of activeVisitors.entries()) {
-      if (now - lastSeen > VISITOR_TIMEOUT) {
-        activeVisitors.delete(id);
-      }
-    }
-
-    res.json({ count: Math.max(1, activeVisitors.size) });
-  });
-
   // Email Transporter (Flexible for Gmail or Hostinger SMTP)
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
