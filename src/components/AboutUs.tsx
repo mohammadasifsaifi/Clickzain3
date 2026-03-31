@@ -32,15 +32,7 @@ const AboutUs = () => {
               {/* Main Image Container */}
               <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl shadow-brand-primary/10 aspect-[3/4] md:aspect-auto max-w-sm md:max-w-md mx-auto lg:mx-0">
                 <motion.img 
-                  animate={{ 
-                    y: [0, -15, 0],
-                  }}
-                  transition={{ 
-                    duration: 6, 
-                    repeat: Infinity, 
-                    ease: "easeInOut" 
-                  }}
-                  src="/founder.jpeg" 
+                  src="/founder.jpg" 
                   alt="Mohammad Asif Saifi - Founder of Clickzain" 
                   className="w-full h-full object-cover object-top"
                   referrerPolicy="no-referrer"
@@ -60,8 +52,6 @@ const AboutUs = () => {
 
               {/* Floating Experience Badge */}
               <motion.div 
-                animate={{ x: [0, 10, 0], y: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -top-4 -right-2 md:-top-6 md:right-0 glass p-3 md:p-4 rounded-xl md:rounded-2xl z-20 border border-brand-primary/30"
               >
                 <div className="flex items-center gap-2 md:gap-3">
@@ -77,8 +67,6 @@ const AboutUs = () => {
 
               {/* Floating Results Badge */}
               <motion.div 
-                animate={{ x: [0, -10, 0], y: [0, 15, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute top-1/3 -left-6 md:-left-12 glass p-3 md:p-4 rounded-xl md:rounded-2xl z-20 border border-white/10 hidden sm:block"
               >
                 <div className="flex items-center gap-2 md:gap-3">

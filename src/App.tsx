@@ -1054,7 +1054,7 @@ export default function App() {
                 </div>
                 <div>
                   <div className="text-sm text-white/40 font-bold uppercase tracking-widest">Email Us</div>
-                  <div className="font-bold">hello@clickzain.com</div>
+                  <div className="font-bold">clickzaindigitalsolutions@gmail.com</div>
                 </div>
               </div>
               <div className="flex items-center gap-4">
