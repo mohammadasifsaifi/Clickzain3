@@ -32,7 +32,7 @@ const AboutUs = () => {
               {/* Main Image Container */}
               <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl shadow-brand-primary/10 aspect-[3/4] md:aspect-auto max-w-sm md:max-w-md mx-auto lg:mx-0">
                 <motion.img 
-                  src="/founder.jpg" 
+                  src="https://lh3.googleusercontent.com/d/1-AO7friQamF6S3E7-TYHAq7rWGHW-Iz3" 
                   alt="Mohammad Asif Saifi - Founder of Clickzain" 
                   className="w-full h-full object-cover object-top"
                   referrerPolicy="no-referrer"
