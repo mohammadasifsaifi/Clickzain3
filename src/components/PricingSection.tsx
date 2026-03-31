@@ -42,12 +42,21 @@ const PlanCard: React.FC<PlanProps> = ({
   icon,
   onCtaClick
 }) => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <motion.div
-      whileHover={{ y: -10 }}
+      whileHover={isMobile ? {} : { y: -10 }}
       className={`relative flex flex-col p-8 rounded-3xl border transition-all duration-300 ${
         isPopular 
-          ? 'bg-white/5 border-brand-primary shadow-[0_0_40px_rgba(0,255,136,0.1)] scale-105 z-10' 
+          ? `bg-white/5 border-brand-primary ${isMobile ? '' : 'shadow-[0_0_40px_rgba(0,255,136,0.1)] scale-105'} z-10` 
           : 'bg-black/40 border-white/10 hover:border-white/20'
       }`}
     >
@@ -101,6 +110,15 @@ const PlanCard: React.FC<PlanProps> = ({
 };
 
 const PricingSection: React.FC<{ onCtaClick: () => void }> = ({ onCtaClick }) => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const plans = [
     {
       title: "Starter Growth",
@@ -185,8 +203,8 @@ const PricingSection: React.FC<{ onCtaClick: () => void }> = ({ onCtaClick }) =>
   return (
     <section id="pricing" className="py-24 bg-black relative overflow-hidden">
       {/* Background Glows */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand-primary/5 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
+      <div className={`absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand-primary/5 rounded-full -z-10 ${isMobile ? 'blur-[60px]' : 'blur-[120px]'}`} />
+      <div className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full -z-10 ${isMobile ? 'blur-[60px]' : 'blur-[120px]'}`} />
 
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">

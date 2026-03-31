@@ -35,6 +35,7 @@ import {
 import { Section, FadeIn } from './components/Layout';
 import { ServiceCard, IndustryCard } from './components/Cards';
 import AboutUs from './components/AboutUs';
+import ROICalculator from './components/ROICalculator';
 import GalaxyBackground from './components/GalaxyBackground';
 import LeadModal from './components/LeadModal';
 import PricingSection from './components/PricingSection';
@@ -223,6 +224,17 @@ const ClickZainLogo = ({ className = "", onClick }: { className?: string, onClic
 
 
 export default function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { scrollY } = useScroll();
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
@@ -360,7 +372,7 @@ export default function App() {
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
-            {['About', 'Services', 'Industries', 'Pricing', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
+            {['About', 'Services', 'ROI Calculator', 'Industries', 'Pricing', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
               <a 
                 key={item} 
                 href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} 
@@ -393,7 +405,7 @@ export default function App() {
               className="lg:hidden bg-bg-dark border-b border-white/10 overflow-hidden"
             >
               <div className="px-6 py-10 flex flex-col gap-8">
-                {['About', 'Services', 'Industries', 'Pricing', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
+                {['About', 'Services', 'ROI Calculator', 'Industries', 'Pricing', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
                   <a 
                     key={item} 
                     href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} 
@@ -419,16 +431,16 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <Section className="pt-32 md:pt-40 pb-20 relative z-10 overflow-hidden" onMouseMove={handleMouseMove}>
+      <Section className="pt-32 md:pt-40 pb-20 relative z-10 overflow-hidden" onMouseMove={isMobile ? undefined : handleMouseMove}>
         <motion.div 
-          style={{ 
+          style={isMobile ? {} : { 
             rotateX,
             rotateY,
           }} 
           className="relative z-20"
         >
           {/* Background Glows */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] max-w-[1000px] max-h-[1000px] bg-brand-primary/5 blur-[120px] rounded-full -z-10 animate-pulse pointer-events-none" />
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] max-w-[1000px] max-h-[1000px] bg-brand-primary/5 rounded-full -z-10 pointer-events-none ${isMobile ? 'blur-[60px]' : 'blur-[120px] animate-pulse'}`} />
           
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <FadeIn direction="right" className="z-30">
@@ -867,7 +879,7 @@ export default function App() {
                   <img 
                     src={project.image} 
                     alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className={`w-full h-full object-cover transition-transform duration-700 ${isMobile ? '' : 'group-hover:scale-110'}`}
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -962,8 +974,8 @@ export default function App() {
               </div>
             </div>
             {/* Decorative Elements */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-brand-primary/20 blur-3xl rounded-full" />
-            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-brand-secondary/20 blur-3xl rounded-full" />
+            <div className={`absolute -top-10 -right-10 w-32 h-32 bg-brand-primary/20 rounded-full ${isMobile ? 'blur-xl' : 'blur-3xl'}`} />
+            <div className={`absolute -bottom-10 -left-10 w-32 h-32 bg-brand-secondary/20 rounded-full ${isMobile ? 'blur-xl' : 'blur-3xl'}`} />
           </FadeIn>
         </div>
       </Section>
@@ -1002,6 +1014,8 @@ export default function App() {
           ))}
         </div>
       </Section>
+
+      <ROICalculator />
 
       {/* Testimonials */}
       <Section>
@@ -1134,6 +1148,7 @@ export default function App() {
               <ul className="space-y-4 text-sm text-white/40">
                 <li><a href="#about" className="hover:text-brand-primary transition-colors">About</a></li>
                 <li><a href="#services" className="hover:text-brand-primary transition-colors">Services</a></li>
+                <li><a href="#roi-calculator" className="hover:text-brand-primary transition-colors">ROI Calculator</a></li>
                 <li><a href="#industries" className="hover:text-brand-primary transition-colors">Industries</a></li>
                 <li><a href="#pricing" className="hover:text-brand-primary transition-colors">Pricing</a></li>
                 <li><a href="#recent-projects" className="hover:text-brand-primary transition-colors">Recent Projects</a></li>

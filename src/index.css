@@ -24,7 +24,7 @@
 }
 
 .glass {
-  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  @apply bg-white/5 backdrop-blur-md md:backdrop-blur-xl border border-white/10;
 }
 
 .gradient-text {

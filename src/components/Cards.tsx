@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { LucideIcon } from 'lucide-react';
 
@@ -10,13 +10,22 @@ interface CardProps {
 }
 
 export const ServiceCard = ({ title, description, icon: Icon, delay = 0 }: CardProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -10 }}
+      whileHover={isMobile ? {} : { y: -10 }}
       className="p-6 md:p-8 rounded-2xl bg-card-bg border border-white/5 hover:border-brand-primary/30 transition-all group"
     >
       <div className="w-12 h-12 rounded-xl bg-brand-primary/10 flex items-center justify-center mb-6 group-hover:bg-brand-primary/20 transition-colors">

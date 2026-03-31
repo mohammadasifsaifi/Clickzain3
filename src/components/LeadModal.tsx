@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   X,
@@ -26,6 +26,15 @@ interface LeadModalProps {
 }
 
 const LeadModal = ({ isOpen, onClose, onSuccess }: LeadModalProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -133,9 +142,9 @@ const LeadModal = ({ isOpen, onClose, onSuccess }: LeadModalProps) => {
         >
           {/* Background Decorative Elements */}
           <div className="fixed inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-primary/10 blur-[120px] rounded-full animate-pulse" />
+            <div className={`absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-primary/10 rounded-full ${isMobile ? 'blur-[60px]' : 'blur-[120px] animate-pulse'}`} />
             <div
-              className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-secondary/10 blur-[120px] rounded-full animate-pulse"
+              className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-secondary/10 rounded-full ${isMobile ? 'blur-[60px]' : 'blur-[120px] animate-pulse'}`}
               style={{ animationDelay: "2s" }}
             />
           </div>

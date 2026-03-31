@@ -13,10 +13,19 @@ import {
 import { FadeIn } from './Layout';
 
 const AboutUs = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <section id="about" className="py-24 relative overflow-hidden">
       {/* Background Decorative Elements */}
-      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-brand-primary/5 blur-[120px] rounded-full -z-10" />
+      <div className={`absolute top-1/2 left-0 w-[500px] h-[500px] bg-brand-primary/5 rounded-full -z-10 ${isMobile ? 'blur-[60px]' : 'blur-[120px]'}`} />
       
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
