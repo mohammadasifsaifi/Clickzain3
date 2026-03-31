@@ -1,21 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
-import { Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+
+// Simple unique ID for this visitor session
+const VISITOR_ID = Math.random().toString(36).substring(2, 15);
 
 const LiveCounter = () => {
   const [count, setCount] = useState(1);
 
   useEffect(() => {
-    const socket = io();
-
-    socket.on('visitorCount', (newCount: number) => {
-      setCount(newCount);
-    });
-
-    return () => {
-      socket.disconnect();
+    const fetchCount = async () => {
+      try {
+        const response = await fetch(`/api/visitor-count?id=${VISITOR_ID}`);
+        if (response.ok) {
+          const data = await response.json();
+          setCount(data.count);
+        }
+      } catch (error) {
+        console.error("Error fetching visitor count:", error);
+      }
     };
+
+    // Initial fetch
+    fetchCount();
+
+    // Poll every 10 seconds
+    const interval = setInterval(fetchCount, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (

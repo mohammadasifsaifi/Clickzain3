@@ -4,8 +4,6 @@ import path from "path";
 import nodemailer from "nodemailer";
 import cors from "cors";
 import dotenv from "dotenv";
-import { createServer } from "http";
-import { Server } from "socket.io";
 
 dotenv.config();
 
@@ -13,31 +11,31 @@ import { GoogleGenAI } from "@google/genai";
 
 async function startServer() {
   const app = express();
-  const httpServer = createServer(app);
-  const io = new Server(httpServer, {
-    cors: {
-      origin: "*",
-      methods: ["GET", "POST"]
-    }
-  });
-
   const PORT = 3000;
 
   app.use(express.json());
   app.use(cors());
 
-  // Socket.io Logic
-  let activeVisitors = 0;
-  io.on("connection", (socket) => {
-    activeVisitors++;
-    io.emit("visitorCount", activeVisitors);
-    console.log(`User connected. Total visitors: ${activeVisitors}`);
+  // Visitor Tracking (Vercel-compatible polling fallback)
+  // We track active visitors by their last "ping" time.
+  const activeVisitors = new Map<string, number>();
+  const VISITOR_TIMEOUT = 30000; // 30 seconds
 
-    socket.on("disconnect", () => {
-      activeVisitors--;
-      io.emit("visitorCount", activeVisitors);
-      console.log(`User disconnected. Total visitors: ${activeVisitors}`);
-    });
+  app.get("/api/visitor-count", (req, res) => {
+    const visitorId = req.query.id as string || req.ip || "unknown";
+    const now = Date.now();
+    
+    // Update this visitor's last seen time
+    activeVisitors.set(visitorId, now);
+
+    // Clean up old visitors
+    for (const [id, lastSeen] of activeVisitors.entries()) {
+      if (now - lastSeen > VISITOR_TIMEOUT) {
+        activeVisitors.delete(id);
+      }
+    }
+
+    res.json({ count: Math.max(1, activeVisitors.size) });
   });
 
   // Email Transporter (Flexible for Gmail or Hostinger SMTP)
@@ -300,7 +298,7 @@ Source: Website Form
     });
   }
 
-  httpServer.listen(PORT, "0.0.0.0", () => {
+  app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }
