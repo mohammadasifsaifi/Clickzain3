@@ -103,7 +103,7 @@ const AboutUs = () => {
                   <Zap className="text-brand-primary w-4 h-4" />
                   <span className="text-xs font-bold tracking-widest uppercase text-brand-primary">About Clickzain</span>
                 </motion.div>
-                <h2 className="text-4xl md:text-6xl font-display font-bold leading-tight mb-6">
+                <h2 className="text-3xl md:text-6xl font-display font-bold leading-tight mb-6">
                   Expertise in Growth, <br />
                   <span className="gradient-text">Driven by Results</span>
                 </h2>

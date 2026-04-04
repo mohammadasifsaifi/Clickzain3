@@ -14,6 +14,10 @@
 }
 
 @layer base {
+  html, body {
+    @apply overflow-x-hidden;
+  }
+
   body {
     @apply bg-bg-dark text-white font-sans antialiased selection:bg-brand-primary selection:text-black;
   }

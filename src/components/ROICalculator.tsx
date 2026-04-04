@@ -60,7 +60,7 @@ const ROICalculator = () => {
               <Calculator className="text-brand-primary w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase text-brand-primary">Growth Tool</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-display font-bold mb-6">
+            <h2 className="text-3xl md:text-6xl font-display font-bold mb-6">
               Calculate Your <span className="gradient-text">Growth Potential</span>
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto">
@@ -214,7 +214,7 @@ const ROICalculator = () => {
               <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div className="text-center md:text-left">
                   <h4 className="text-sm font-bold text-white/40 uppercase tracking-widest mb-2">Potential Monthly Revenue Lift</h4>
-                  <div className="text-5xl md:text-7xl font-display font-black text-brand-primary tracking-tighter">
+                  <div className="text-4xl sm:text-5xl md:text-7xl font-display font-black text-brand-primary tracking-tighter">
                     +{formatCurrency(results.lift)}
                   </div>
                   <p className="text-white/60 mt-4 max-w-sm">

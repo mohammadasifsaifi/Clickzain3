@@ -54,7 +54,7 @@ const ClickZainLogoAnimated = () => (
         style={{ left: '30%', top: '30%' }}
       />
     </motion.div>
-    <span className="text-4xl font-display font-black tracking-tighter text-white">CLICKZAIN</span>
+    <span className="text-2xl sm:text-4xl font-display font-black tracking-tighter text-white">CLICKZAIN</span>
   </motion.div>
 );
 
@@ -83,7 +83,7 @@ const ThankYou = ({ onBack }: ThankYouProps) => {
           <CheckCircle2 className="text-brand-primary w-12 h-12" />
         </motion.div>
 
-        <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-6 tracking-tighter leading-tight">
+        <h1 className="text-4xl md:text-7xl font-display font-black text-white mb-6 tracking-tighter leading-tight">
           YOU'RE ALL <span className="gradient-text">SET! 🚀</span>
         </h1>
         

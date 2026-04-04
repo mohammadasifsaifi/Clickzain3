@@ -227,7 +227,7 @@ const LeadModal = ({ isOpen, onClose, onSuccess }: LeadModalProps) => {
                 transition={{ delay: 0.3 }}
                 className="relative"
               >
-                <div className="glass p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <div className="glass p-6 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
                   {/* Form Success State */}
                   <AnimatePresence mode="wait">
                     {status === "success" ? (

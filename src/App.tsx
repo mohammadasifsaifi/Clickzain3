@@ -214,7 +214,7 @@ const ClickZainLogo = ({ className = "", onClick }: { className?: string, onClic
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.6, duration: 0.5 }}
-      className="text-2xl font-display font-bold tracking-tighter"
+      className="text-xl sm:text-2xl font-display font-bold tracking-tighter"
     >
       CLICKZAIN
     </motion.span>
@@ -331,7 +331,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen selection:bg-brand-primary selection:text-black relative">
+    <div className="min-h-screen selection:bg-brand-primary selection:text-black relative overflow-x-hidden">
       <GalaxyBackground />
       
       {view === 'thank-you' ? (
@@ -444,7 +444,7 @@ export default function App() {
           
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <FadeIn direction="right" className="z-30">
-              <h1 className="text-4xl sm:text-6xl md:text-7xl xl:text-8xl font-display font-black leading-[0.9] mb-8 text-left tracking-tighter">
+              <h1 className="text-3xl sm:text-6xl md:text-7xl xl:text-8xl font-display font-black leading-[0.9] mb-8 text-left tracking-tighter">
                 GROW YOUR <br />
                 <span className="gradient-text">BUSINESS</span> <br />
                 DIGITALLY.
