@@ -3,12 +3,11 @@ import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'mot
 import { 
   Zap, 
   Target, 
-  BarChart3, 
   Layers, 
   Cpu, 
   CheckCircle2, 
   ArrowRight, 
-  Star, 
+  Star,
   MessageSquare, 
   Mail, 
   Phone, 
@@ -22,11 +21,9 @@ import {
   Stethoscope,
   Building2, 
   GraduationCap, 
-  Plane,
   Search, 
   MousePointer2, 
   Workflow, 
-  LineChart, 
   User,
   Users,
   Activity,
@@ -35,126 +32,12 @@ import {
 import { Section, FadeIn } from './components/Layout';
 import { ServiceCard, IndustryCard } from './components/Cards';
 import AboutUs from './components/AboutUs';
-import ROICalculator from './components/ROICalculator';
 import GalaxyBackground from './components/GalaxyBackground';
 import LeadModal from './components/LeadModal';
-import PricingSection from './components/PricingSection';
 import ThankYou from './components/ThankYou';
+import CompanyProfile from './components/CompanyProfile';
 
-import { generateLogo } from './services/logoService';
-
-const DownloadModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (isOpen && !logoUrl) {
-      handleGenerate();
-    }
-  }, [isOpen]);
-
-  const handleGenerate = async () => {
-    setLoading(true);
-    try {
-      const url = await generateLogo();
-      setLogoUrl(url);
-    } catch (error) {
-      console.error("Failed to generate logo:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const download = (format: 'jpg' | 'gif') => {
-    if (!logoUrl) return;
-    const link = document.createElement('a');
-    link.href = logoUrl;
-    link.download = `clickzain-logo.${format}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-black/80 backdrop-blur-xl"
-          />
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-2xl glass rounded-[2rem] md:rounded-[3rem] border-white/10 p-8 md:p-12 overflow-hidden"
-          >
-            <button 
-              onClick={onClose}
-              className="absolute top-6 right-6 md:top-8 md:right-8 text-white/40 hover:text-white transition-colors"
-            >
-              <X className="w-6 h-6 md:w-8 md:h-8" />
-            </button>
-
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl md:text-4xl font-display font-bold mb-3 md:mb-4">Download Brand Assets</h2>
-              <p className="text-sm md:text-base text-white/50">Get the official ClickZain logo for your marketing materials.</p>
-            </div>
-
-            <div className="flex flex-col items-center gap-8 md:gap-12">
-              <div className="w-48 h-48 md:w-64 md:h-64 rounded-2xl md:rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden relative group">
-                {loading ? (
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="w-10 h-10 md:w-12 md:h-12 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
-                    <span className="text-[10px] md:text-xs font-bold text-brand-primary uppercase tracking-widest">Generating...</span>
-                  </div>
-                ) : logoUrl ? (
-                  <img src={logoUrl} alt="ClickZain Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                ) : (
-                  <div className="text-white/20">No logo generated</div>
-                )}
-                
-                {logoUrl && !loading && (
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">Official Asset</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 w-full">
-                <button 
-                  onClick={() => download('jpg')}
-                  disabled={loading || !logoUrl}
-                  className="btn-primary py-4 md:py-5 flex items-center justify-center gap-3 disabled:opacity-50 text-sm md:text-base"
-                >
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 rotate-90" />
-                  Download JPG
-                </button>
-                <button 
-                  onClick={() => download('gif')}
-                  disabled={loading || !logoUrl}
-                  className="glass py-4 md:py-5 flex items-center justify-center gap-3 hover:bg-white/10 transition-colors disabled:opacity-50 text-sm md:text-base"
-                >
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 rotate-90" />
-                  Download GIF
-                </button>
-              </div>
-              
-              <p className="text-[8px] md:text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold text-center">
-                High Resolution • Vector Ready • Transparent Background
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
-  );
-};
-
-const ClickZainLogo = ({ className = "", onClick }: { className?: string, onClick?: () => void }) => (
+const ClickZainLogo = ({ className = "" }: { className?: string }) => (
   <motion.div 
     initial={{ opacity: 0, scale: 0.8 }}
     animate={{ opacity: 1, scale: 1 }}
@@ -164,8 +47,7 @@ const ClickZainLogo = ({ className = "", onClick }: { className?: string, onClic
       stiffness: 100,
       damping: 15
     }}
-    onClick={onClick}
-    className={`flex items-center gap-2 cursor-pointer group ${className}`}
+    className={`flex items-center gap-2 group ${className}`}
   >
     <motion.div 
       initial={{ rotate: -45, x: -10, y: 10 }}
@@ -221,8 +103,6 @@ const ClickZainLogo = ({ className = "", onClick }: { className?: string, onClic
   </motion.div>
 );
 
-
-
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -237,7 +117,6 @@ export default function App() {
 
   const { scrollY } = useScroll();
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
-  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   
   const mouseX = useSpring(0, { stiffness: 50, damping: 20 });
   const mouseY = useSpring(0, { stiffness: 50, damping: 20 });
@@ -249,7 +128,7 @@ export default function App() {
     mouseY.set((clientY / innerHeight - 0.5) * 40);
   };
 
-  const [view, setView] = useState<'landing' | 'privacy' | 'terms' | 'cookie' | 'thank-you'>('landing');
+  const [view, setView] = useState<'landing' | 'privacy' | 'terms' | 'cookie' | 'thank-you' | 'profile'>('landing');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   const rotateX = useTransform(mouseY, (v) => v / -15);
@@ -338,12 +217,20 @@ export default function App() {
         <div className="relative z-10">
           <ThankYou onBack={() => setView('landing')} />
         </div>
+      ) : view === 'profile' ? (
+        <div className="relative z-10">
+          <CompanyProfile 
+            onBack={() => setView('landing')} 
+            onContact={() => {
+              setView('landing');
+              setTimeout(() => setIsLeadModalOpen(true), 100);
+            }} 
+          />
+        </div>
       ) : (view === 'privacy' || view === 'terms' || view === 'cookie') ? (
         <div className="min-h-screen text-white p-6 md:p-12 relative">
           <nav className="max-w-7xl mx-auto mb-12 flex justify-between items-center">
-            <div className="cursor-pointer">
-              <ClickZainLogo onClick={() => setIsDownloadModalOpen(true)} />
-            </div>
+            <ClickZainLogo />
             <button 
               onClick={() => setView('landing')}
               className="text-sm font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors"
@@ -368,24 +255,24 @@ export default function App() {
           {/* Navigation */}
           <nav className="fixed top-0 left-0 w-full z-50 glass border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <ClickZainLogo onClick={() => setIsDownloadModalOpen(true)} />
+          <ClickZainLogo />
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8">
-            {['About', 'Services', 'ROI Calculator', 'Industries', 'Pricing', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            {['About', 'Services', 'Industries', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
               <a 
                 key={item} 
                 href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} 
-                className="text-sm font-medium text-white/70 hover:text-brand-primary transition-colors"
+                className="text-sm font-medium text-white/70 hover:text-brand-primary transition-all hover:translate-y-[-1px]"
               >
                 {item}
               </a>
             ))}
             <button 
-              onClick={() => setIsLeadModalOpen(true)}
-              className="btn-primary py-2 px-6 text-sm"
+              onClick={() => setView('profile')}
+              className="btn-primary py-2.5 px-6 text-sm shadow-[0_0_20px_rgba(180,255,0,0.15)] hover:shadow-[0_0_30px_rgba(180,255,0,0.3)] transition-all"
             >
-              Get Started
+              Pricing
             </button>
           </div>
 
@@ -402,10 +289,10 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-bg-dark border-b border-white/10 overflow-hidden"
+              className="lg:hidden bg-bg-dark/95 backdrop-blur-2xl border-b border-white/10 overflow-hidden"
             >
-              <div className="px-6 py-10 flex flex-col gap-8">
-                {['About', 'Services', 'ROI Calculator', 'Industries', 'Pricing', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
+              <div className="px-6 py-10 flex flex-col gap-6">
+                {['About', 'Services', 'Industries', 'Recent Projects', 'Process', 'Results', 'Contact'].map((item) => (
                   <a 
                     key={item} 
                     href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} 
@@ -417,12 +304,12 @@ export default function App() {
                 ))}
                 <button 
                   onClick={() => {
-                    setIsLeadModalOpen(true);
+                    setView('profile');
                     setIsMenuOpen(false);
                   }}
-                  className="btn-primary w-full py-4"
+                  className="btn-primary w-full py-5 text-lg shadow-[0_0_30px_rgba(180,255,0,0.2)]"
                 >
-                  Get Started
+                  Pricing
                 </button>
               </div>
             </motion.div>
@@ -820,9 +707,9 @@ export default function App() {
             delay={0.3}
           />
           <IndustryCard 
-            title="Travel & Tourism"
-            image="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=800"
-            benefits={['Destination Marketing', 'Booking Conversion Funnels', 'Travel Intent Targeting']}
+            title="Gym & Fitness"
+            image="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800"
+            benefits={['Membership Enrollment Funnels', 'Personal Trainer Branding', 'High-Retention Ad Campaigns']}
             delay={0.4}
           />
         </div>
@@ -866,11 +753,11 @@ export default function App() {
               desc: "Performance-driven enrollment funnel that identified and converted high-intent students effectively."
             },
             {
-              title: "Travel Conversion Strategy",
-              client: "Luxury Travel Agency",
-              image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=1200",
-              results: "₹2.8M Bookings | -45% CPA",
-              desc: "Strategic ad creative system that personalized travel offers based on user intent and behavior."
+              title: "Fitness Growth System",
+              client: "Premium Fitness Club",
+              image: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=1200",
+              results: "450+ Memberships | -35% CPA",
+              desc: "Performance-driven membership acquisition system that targeted fitness enthusiasts with personalized offers."
             }
           ].map((project, idx) => (
             <FadeIn key={idx} delay={idx * 0.2}>
@@ -996,7 +883,7 @@ export default function App() {
             { client: 'Healthcare Specialist', metric: '420+', label: 'Monthly Patients', growth: '+210%', icon: Stethoscope },
             { client: 'Real Estate Developer', metric: '₹4.2M', label: 'Sales Pipeline', growth: '+155%', icon: Building2 },
             { client: 'Education Academy', metric: '1,200+', label: 'New Enrollments', growth: '+340%', icon: GraduationCap },
-            { client: 'Travel Agency', metric: '₹2.8M', label: 'New Bookings', growth: '+240%', icon: Plane },
+            { client: 'Fitness Chain', metric: '450+', label: 'New Memberships', growth: '+280%', icon: Activity },
           ].map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.1}>
               <div className="p-10 glass rounded-3xl text-center relative overflow-hidden group">
@@ -1015,8 +902,6 @@ export default function App() {
         </div>
       </Section>
 
-      <ROICalculator />
-
       {/* Testimonials */}
       <Section>
         <FadeIn>
@@ -1030,7 +915,7 @@ export default function App() {
             { name: 'Dr. Sarah C.', role: 'Founder, Aesthetics Clinic', text: 'Clickzain transformed our patient acquisition process. We went from struggling for bookings to a consistent flow of high-intent leads.' },
             { name: 'Marcus T.', role: 'CEO, Real Estate Firm', text: 'The lead generation system they built for our latest project launch delivered high-quality prospects at a significantly lower cost.' },
             { name: 'Elena R.', role: 'Director, Education Academy', text: 'Professional, data-driven, and results-oriented. They truly understand how to scale enrollment through strategic digital marketing.' },
-            { name: 'Rahul K.', role: 'CEO, Travel Agency', text: 'The performance marketing strategies implemented for our luxury travel packages delivered exceptional results and high ROI.' },
+            { name: 'Vikram S.', role: 'Founder, Fitness Chain', text: 'The performance marketing strategies implemented for our premium gym memberships delivered exceptional results and high ROI.' },
           ].map((t, idx) => (
             <FadeIn key={idx} delay={idx * 0.1}>
               <div className="p-8 bg-card-bg rounded-2xl border border-white/5 h-full flex flex-col justify-between">
@@ -1049,8 +934,6 @@ export default function App() {
           ))}
         </div>
       </Section>
-
-      <PricingSection onCtaClick={() => setIsLeadModalOpen(true)} />
 
       {/* Contact Section */}
       <Section id="contact" className="relative">
@@ -1077,7 +960,7 @@ export default function App() {
                 </div>
                 <div>
                   <div className="text-sm text-white/40 font-bold uppercase tracking-widest">Call Us</div>
-                  <div className="font-bold">9311295120</div>
+                  <div className="font-bold">9354045548</div>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -1123,7 +1006,7 @@ export default function App() {
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-2">
               <div className="mb-6">
-                <ClickZainLogo onClick={() => setIsDownloadModalOpen(true)} />
+                <ClickZainLogo />
               </div>
               <p className="text-white/40 max-w-sm mb-8">
                 Helping businesses grow digitally with performance-driven marketing strategies. We build tailored solutions that deliver real value and growth.
@@ -1148,9 +1031,8 @@ export default function App() {
               <ul className="space-y-4 text-sm text-white/40">
                 <li><a href="#about" className="hover:text-brand-primary transition-colors">About</a></li>
                 <li><a href="#services" className="hover:text-brand-primary transition-colors">Services</a></li>
-                <li><a href="#roi-calculator" className="hover:text-brand-primary transition-colors">ROI Calculator</a></li>
                 <li><a href="#industries" className="hover:text-brand-primary transition-colors">Industries</a></li>
-                <li><a href="#pricing" className="hover:text-brand-primary transition-colors">Pricing</a></li>
+                <li><button onClick={() => setView('profile')} className="hover:text-brand-primary transition-colors">Pricing</button></li>
                 <li><a href="#recent-projects" className="hover:text-brand-primary transition-colors">Recent Projects</a></li>
                 <li><a href="#process" className="hover:text-brand-primary transition-colors">Our Process</a></li>
                 <li><a href="#results" className="hover:text-brand-primary transition-colors">Results</a></li>
@@ -1184,15 +1066,11 @@ export default function App() {
         onClose={() => setIsLeadModalOpen(false)} 
         onSuccess={() => setView('thank-you')}
       />
-      <DownloadModal 
-        isOpen={isDownloadModalOpen} 
-        onClose={() => setIsDownloadModalOpen(false)} 
-      />
       
       {/* WhatsApp Floating Button */}
       <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3">
         <motion.a
-          href="https://wa.me/919311295120"
+          href="https://wa.me/919354045548"
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, scale: 0.5 }}

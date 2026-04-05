@@ -106,46 +106,6 @@ async function startServer() {
     }
   });
 
-  app.post("/api/generate-logo", async (req, res) => {
-    try {
-      if (!process.env.GEMINI_API_KEY) {
-        throw new Error("GEMINI_API_KEY is not configured on the server.");
-      }
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
-        contents: {
-          parts: [
-            {
-              text: 'A professional, modern, and minimalist logo for a digital marketing agency named "ClickZain". The logo should feature a stylized mouse pointer or a "Z" integrated with a click symbol. Color palette: neon green and black. High resolution, 1024x1024, clean design.',
-            },
-          ],
-        },
-        config: {
-          imageConfig: {
-            aspectRatio: "1:1",
-            imageSize: "1K"
-          },
-        },
-      });
-
-      let base64Data = "";
-      for (const part of response.candidates[0].content.parts) {
-        if (part.inlineData) {
-          base64Data = part.inlineData.data;
-          break;
-        }
-      }
-
-      if (!base64Data) throw new Error("No image data returned from AI");
-
-      res.json({ success: true, imageUrl: `data:image/png;base64,${base64Data}` });
-    } catch (error: any) {
-      console.error("Logo generation error:", error);
-      res.status(500).json({ success: false, message: error.message });
-    }
-  });
-
   app.post("/api/lead", async (req, res) => {
     console.log("Received new lead submission:", req.body);
     const { fullName, email, phone, businessName, monthlyBudget, message } = req.body;

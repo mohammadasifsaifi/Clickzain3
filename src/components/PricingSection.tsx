@@ -255,7 +255,7 @@ const PricingSection: React.FC<{ onCtaClick: () => void }> = ({ onCtaClick }) =>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <a 
-              href="tel:9311295120"
+              href="tel:9354045548"
               className="btn-primary flex items-center justify-center gap-2 px-8 py-4"
             >
               <PhoneCall className="w-5 h-5" />
